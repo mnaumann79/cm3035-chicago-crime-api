@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicago Crime REST API</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+        h1 { border-bottom: 2px solid #2563eb; padding-bottom: 0.5rem; }
+        h2 { margin-top: 2rem; color: #2563eb; }
+        .endpoint { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin: 0.75rem 0; }
+        .endpoint a { font-size: 1.1rem; font-weight: 600; color: #2563eb; text-decoration: none; }
+        .endpoint a:hover { text-decoration: underline; }
+        .methods { display: inline-block; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 0.5rem; }
+        .description { color: #64748b; margin-top: 0.25rem; }
+        .metadata { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; background: #f1f5f9; border-radius: 6px; padding: 1rem; margin-top: 1rem; }
+        .metadata dt { font-weight: 600; color: #475569; }
+        .metadata dd { margin-left: 0; color: #1e293b; }
+    </style>
+</head>
+<body>
+    <h1>Chicago Crime REST API</h1>
+
+    <h2>Endpoints</h2>
+    {% for ep in endpoints %}
+    <div class="endpoint">
+        <span class="methods">{{ ep.methods }}</span>
+        <a href="{{ ep.url }}">{{ ep.name }}</a>
+        <div class="description">{{ ep.description }}</div>
+    </div>
+    {% endfor %}
+
+    <h2>System Information</h2>
+    <dl class="metadata">
+        <dt>Python Version</dt>
+        <dd>{{ python_version }}</dd>
+        <dt>Django Version</dt>
+        <dd>{{ django_version }}</dd>
+        <dt>Packages Used</dt>
+        <dd>{{ packages|join:", " }}</dd>
+        <dt>Admin Username</dt>
+        <dd>{{ admin_username }}</dd>
+        <dt>Admin Password</dt>
+        <dd>{{ admin_password }}</dd>
+    </dl>
+</body>
+</html>

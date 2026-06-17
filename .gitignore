@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.sqlite3
+.hypothesis/
+venv/
+.venv/
+*.zip
+.env
+transcripts/
+docs/
+AWD-CW1.pdf
+CM3035_Coursework_Rubrics.pdf
