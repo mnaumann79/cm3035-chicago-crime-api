@@ -104,7 +104,9 @@ class Command(BaseCommand):
                         district=district,
                     )
                     incidents_created += 1
-                except Exception:
+                except Exception as e:
+                    if skip_create == 0:
+                        self.stderr.write(f'First create error: {e}')
                     skip_create += 1
 
         self.stdout.write(
