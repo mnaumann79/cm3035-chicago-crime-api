@@ -1,8 +1,12 @@
 import csv
+import locale
 from datetime import datetime
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from crime_api.models import OffenseCategory, District, Incident
+
+# Force C locale for locale-independent date parsing (AM/PM recognition)
+locale.setlocale(locale.LC_TIME, 'C')
 
 
 DISTRICT_POPULATIONS = {
@@ -26,7 +30,9 @@ class Command(BaseCommand):
         categories_seen = {}
         districts_seen = {}
         incidents_created = 0
-        skipped = 0
+        skip_date = 0
+        skip_case = 0
+        skip_create = 0
 
         with open(csv_path, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
@@ -72,7 +78,7 @@ class Command(BaseCommand):
                         datetime.strptime(date_str, '%m/%d/%Y %I:%M:%S %p')
                     )
                 except ValueError:
-                    skipped += 1
+                    skip_date += 1
                     continue
 
                 arrest = row.get('Arrest', '').strip().lower() == 'true'
@@ -80,7 +86,7 @@ class Command(BaseCommand):
 
                 case_number = row.get('Case Number', '').strip()
                 if not case_number:
-                    skipped += 1
+                    skip_case += 1
                     continue
 
                 fbi_code = row.get('FBI Code', '').strip()
@@ -99,13 +105,13 @@ class Command(BaseCommand):
                     )
                     incidents_created += 1
                 except Exception:
-                    skipped += 1
+                    skip_create += 1
 
         self.stdout.write(
             self.style.SUCCESS(
                 f'Loaded {incidents_created} incidents '
                 f'({len(categories_seen)} categories, {len(districts_seen)} districts). '
-                f'Skipped {skipped} rows.'
+                f'Skipped: {skip_date} bad dates, {skip_case} missing case#, {skip_create} create errors.'
             )
         )
 
