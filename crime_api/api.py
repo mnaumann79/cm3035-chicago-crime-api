@@ -74,6 +74,8 @@ class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
 class ArrestRates(generics.GenericAPIView):
     """Arrest rate percentage by offense category."""
     serializer_class = ArrestRateSerializer
+    # Browsable API requires queryset; the actual data comes from get().
+    queryset = OffenseCategory.objects.none()
 
     def get(self, request):
         stats = (
@@ -98,6 +100,7 @@ class ArrestRates(generics.GenericAPIView):
 class DistrictSafety(generics.GenericAPIView):
     """Per-capita incident rate by district, ordered most dangerous first."""
     serializer_class = DistrictSafetySerializer
+    queryset = District.objects.none()
 
     def get(self, request):
         stats = (
@@ -122,6 +125,7 @@ class DistrictSafety(generics.GenericAPIView):
 class TemporalStats(generics.GenericAPIView):
     """Monthly incident counts with arrest percentage over time."""
     serializer_class = TemporalStatsSerializer
+    queryset = Incident.objects.none()
 
     def get(self, request):
         stats = (
