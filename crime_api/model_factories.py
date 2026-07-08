@@ -1,6 +1,8 @@
 import factory
 from factory.django import DjangoModelFactory
 from random import randint, choice
+from datetime import timedelta
+from django.utils import timezone
 from .models import OffenseCategory, District, Incident
 
 
@@ -32,7 +34,9 @@ class IncidentFactory(DjangoModelFactory):
         model = Incident
 
     case_number = factory.Sequence(lambda n: f'HY{n:06d}')
-    date = factory.Faker('date_time_between', start_date='-2y', end_date='now')
+    date = factory.LazyFunction(
+        lambda: timezone.now() - timedelta(days=randint(0, 730))
+    )
     block = factory.Faker('street_address')
     arrest = factory.LazyFunction(lambda: choice([True, False]))
     domestic = factory.LazyFunction(lambda: choice([True, False]))

@@ -1,6 +1,8 @@
 from django.db.models import Count, Case, When, F, Q
 from django.db.models.functions import TruncMonth
+from django.utils.dateparse import parse_datetime
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
@@ -40,9 +42,19 @@ class IncidentList(generics.ListCreateAPIView):
                 district__name__icontains=district_name
             )
         if date_from:
-            queryset = queryset.filter(date__gte=date_from)
+            parsed_from = parse_datetime(date_from)
+            if parsed_from is None:
+                raise ValidationError({
+                    'date_from': 'Use ISO 8601 datetime format (e.g. 2024-01-15T12:00:00Z).'
+                })
+            queryset = queryset.filter(date__gte=parsed_from)
         if date_to:
-            queryset = queryset.filter(date__lte=date_to)
+            parsed_to = parse_datetime(date_to)
+            if parsed_to is None:
+                raise ValidationError({
+                    'date_to': 'Use ISO 8601 datetime format (e.g. 2024-01-15T12:00:00Z).'
+                })
+            queryset = queryset.filter(date__lte=parsed_to)
         if arrest is not None:
             queryset = queryset.filter(
                 arrest=(arrest.lower() == 'true')

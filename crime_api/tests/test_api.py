@@ -85,6 +85,14 @@ class IncidentListTests(APITestCase):
         response = self.client.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_invalid_date_from_returns_400(self):
+        response = self.client.get(self.url + '?date_from=not-a-date')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_invalid_date_to_returns_400(self):
+        response = self.client.get(self.url + '?date_to=banana')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 
 class IncidentDetailTests(APITestCase):
     def setUp(self):

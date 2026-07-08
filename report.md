@@ -166,6 +166,8 @@ This was built against a coursework spec with tight constraints: SQLite3, single
 
 **Continuous integration.** Tests run locally via `python manage.py test`. A CI pipeline (GitHub Actions, for instance) would run the suite on every push, enforce style with flake8 or ruff, and block deployment on failure so only verified code reaches users.
 
+**District population values.** Chicago's police districts do not publish per-district population figures, so each `District` row's `population` field is seeded with a US Census ACS community-area estimate used as a proxy (City of Chicago Open Data Portal, "ACS 5-Year Data by Community Area"). This is a known limitation of the `District Safety` endpoint: absolute per-capita values are illustrative rather than authoritative, and ranking across districts reflects the relative ordering of community-area populations rather than the actual resident counts served by each police district. Acknowledging the source rather than fabricating numbers is the defensible choice for a coursework submission.
+
 None of these gaps block a coursework submission. The app demonstrates the core concepts (RESTful design, ORM queries, serialisation, testing), and this section calls out what production would change.
 
 ---

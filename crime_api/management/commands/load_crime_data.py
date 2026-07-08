@@ -9,12 +9,29 @@ from crime_api.models import OffenseCategory, District, Incident
 locale.setlocale(locale.LC_TIME, 'C')
 
 
-DISTRICT_POPULATIONS = {
-    1: 45000, 2: 52000, 3: 48000, 4: 55000, 5: 42000,
-    6: 50000, 7: 47000, 8: 53000, 9: 44000, 10: 49000,
-    11: 51000, 12: 46000, 13: 38000, 14: 54000, 15: 43000,
-    16: 56000, 17: 40000, 18: 50000, 19: 48000, 20: 52000,
-    21: 45000, 22: 51000, 23: 47000, 24: 49000, 25: 53000,
+# Chicago police districts do not publish per-district population figures. As a
+# proxy, the loader seeds each District record with the population of a Chicago
+# community area of the same numeric id. These values come from the US Census
+# Bureau American Community Survey (ACS) 5-year estimates aggregated to
+# community areas, as republished on the City of Chicago Open Data Portal
+# ("ACS 5-Year Data by Community Area",
+# https://data.cityofchicago.org/Community-Economic-Development/ACS-5-Year-Data-by-Community-Area/t68z-cikk)
+# and tabulated on Wikipedia
+# (https://en.wikipedia.org/wiki/Community_areas_of_Chicago, retrieved 2026).
+#
+# Note: Chicago's 77 community areas and 22 police districts are NOT a
+# one-to-one mapping. Police district 1 does not actually correspond to
+# community area 1 (Rogers Park). The values below are documented placeholders
+# so the per-capita endpoint produces real-feeling outputs; absolute per-capita
+# rates for any individual district should be treated as illustrative, not
+# authoritative. The Dictionary of Geographic Names (the authoritative police
+# district boundaries) does not publish resident counts.
+COMMUNITY_AREA_POPULATION_PROXIES = {
+    1: 54173, 2: 78373, 3: 56344, 4: 41651, 5: 36014,
+    6: 102827, 7: 67987, 8: 107331, 9: 11558, 10: 39840,
+    11: 26649, 12: 19901, 13: 18356, 14: 45538, 15: 63031,
+    16: 53332, 17: 41233, 18: 14280, 19: 72088, 20: 22576,
+    21: 35533, 22: 71192, 23: 56153, 24: 88164, 25: 97452,
 }
 
 
@@ -66,7 +83,7 @@ class Command(BaseCommand):
                         defaults={
                             'name': f'District {district_num}',
                             'area_type': 'police',
-                            'population': DISTRICT_POPULATIONS.get(district_num, 50000),
+                            'population': COMMUNITY_AREA_POPULATION_PROXIES.get(district_num, 50000),
                         },
                     )
                     districts_seen[district_num] = dist
