@@ -164,8 +164,6 @@ This application was built to satisfy a coursework specification within a constr
 
 **Continuous integration.** The test suite runs locally via `python manage.py test`. A CI pipeline (such as GitHub Actions) would automatically run the test suite on every push, enforce code style through a linter such as flake8 or ruff, and block deployment if any tests fail — ensuring that only verified code reaches production.
 
-**Containerisation.** The Render deployment uses the platform's Python buildpack. A Dockerised deployment would provide reproducible environments across development and production.
-
 These limitations are appropriate for a coursework project — the application demonstrates understanding of the core concepts (RESTful design, ORM queries, serialisation, testing) while the report acknowledges what would be required for production readiness.
 
 ---
@@ -176,7 +174,7 @@ These limitations are appropriate for a coursework project — the application d
 - **Operating System:** Windows 11 Enterprise (also tested on Linux/macOS)
 - **Python version:** 3.12.1
 - **Django version:** 5.0.7
-- **Key packages:** djangorestframework 3.15.2, drf-spectacular 0.28.0, factory-boy 3.3.1, hypothesis 6.111.1, gunicorn 22.0.0
+- **Key packages:** djangorestframework 3.15.2, drf-spectacular 0.28.0, factory-boy 3.3.1, hypothesis 6.111.1
 
 ### Setup
 
