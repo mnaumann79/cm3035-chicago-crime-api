@@ -168,6 +168,8 @@ This was built against a coursework spec with tight constraints: SQLite3, single
 
 **District population values.** Chicago's police districts do not publish per-district population figures, so each `District` row's `population` field is seeded with a US Census ACS community-area estimate used as a proxy (City of Chicago Open Data Portal, "ACS 5-Year Data by Community Area"). This is a known limitation of the `District Safety` endpoint: absolute per-capita values are illustrative rather than authoritative, and ranking across districts reflects the relative ordering of community-area populations rather than the actual resident counts served by each police district. Acknowledging the source rather than fabricating numbers is the defensible choice for a coursework submission.
 
+**Live deployment.** Hosted at `https://mnaumann79.pythonanywhere.com/api/` on PythonAnywhere's free tier, using the same Django WSGI as local development with `DEBUG=False` and a generated `SECRET_KEY`. All six endpoints and the admin (login in §7) are reachable from the root URL.
+
 None of these gaps block a coursework submission. The app demonstrates the core concepts (RESTful design, ORM queries, serialisation, testing), and this section calls out what production would change.
 
 ---
@@ -209,9 +211,9 @@ python manage.py runserver
 ```
 
 ### Access
-- API root: http://localhost:8000/api/
-- Swagger docs: http://localhost:8000/api/docs/
-- Admin site: http://localhost:8000/admin/
+- Local API root: http://localhost:8000/api/
+- Live API root: https://mnaumann79.pythonanywhere.com/api/
+- Swagger and admin are reachable at the same paths on both URLs
 - Admin credentials: username `admin`, password `admin123`
 
 ---
